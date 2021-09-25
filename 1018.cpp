@@ -7,27 +7,36 @@ int arr[50][50] = {
     0,
 };
 string wb[2][8];
-wb[0] = "wbwbwbwb";
-wb[1] = "bwbwbwbw";
 
 void bw(int a, int c)
 {
-    int count = 0;
+    string bw = "BWBWBWBW";
+    string wb = "WBWBWBWB";
+    string BW[8] = {{bw}, {wb}, {bw}, {wb}, {bw}, {wb}, {bw}, {wb}};
+    string WB[8] = {{wb}, {bw}, {wb}, {bw}, {wb}, {bw}, {wb}, {bw}};
+    int countBW = 0;
+    int countWB = 0;
 
     for (int i = a; i < a + 8; i++)
     {
         for (int k = c; k < c + 8; k++)
         {
+            if (chess[i][k] != BW[i - a][k - c])
+                countBW++;
+            if (chess[i][k] != WB[i - a][k - c])
+                countWB++;
         }
     }
+    if (countBW <= countWB)
+        arr[a][c] = countBW;
+    else
+        arr[a][c] = countWB;
 }
 
 int main()
 {
     int m, n, min = 64;
-
     string line;
-
     cin >> n >> m;
     cin.ignore();
     for (int i = 0; i < n; i++)
@@ -43,17 +52,9 @@ int main()
             {
                 min = arr[i][k];
             }
-            //cout << "arr [" << i << "," << k << "]" << arr[i][k] << endl;
         }
     }
+
     cout << min << endl;
-    // for (int i = 0; i <= n - 8; i++)
-    // {
-    //     for (int k = 0; k <= m - 8; k++)
-    //     {
-    //         cout << arr[i][k] << " ";
-    //     }
-    //     cout << endl;
-    // }
     return 0;
 }
