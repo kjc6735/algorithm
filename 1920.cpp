@@ -1,43 +1,71 @@
 #include <iostream>
-#include <string>
 #include <algorithm>
-#include <vector>
+#include <cmath>
 using namespace std;
-vector<int> n_arr;
+
+long long int arr1[100001] = {
+    0,
+};
+long long int arr2[100001] = {
+    0,
+};
 
 int main()
 {
-    int n, m, t, size;
+    int n, m, idx = 0;
 
-    cin >> n;
+    scanf("%d", &n);
     for (int i = 0; i < n; i++)
-    {
-        cin >> t;
-        n_arr.push_back(t);
-    }
-    sort(n_arr.begin(), n_arr.end());
-    size = n_arr.size();
-    cin >> m;
+        scanf("%lld", &arr1[i]);
+    scanf("%d", &m);
     for (int i = 0; i < m; i++)
+        scanf("%lld", &arr2[i]);
+    sort(arr1, arr1 + n);
+    int left = 0, right = n - 1;
+    int mid = (left + right) / 2;
+    while (idx != m)
     {
-        cin >> t;
-        for (int k = 0; k < 18; k++)
+        if (arr1[mid] == arr2[idx] || arr1[left] == arr2[idx] || arr1[right] == arr2[idx])
         {
-            if (n_arr[size / 2] < t)
-            {
-                cout << size;
-                size *= 1.5;
-                cout << " " << size << endl;
-            }
-            else if (n_arr[size / 2] > t)
-                size /= 2;
-            else
-            {
-                cout << 1 << endl;
-                break;
-            }
+            idx++;
+            left = 0;
+            right = n - 1;
+            mid = (left + right) / 2;
+            printf("1\n");
+            continue;
         }
-        cout << 0 << endl;
+        else if (mid == left || mid == right)
+        {
+            idx++;
+            left = 0;
+            right = n - 1;
+            mid = (left + right) / 2;
+            printf("0\n");
+            continue;
+        }
+        if (arr1[mid] > arr2[idx])
+        {
+            //cout << "mid : " << mid << "  left : " << left << "    right: " << right << endl;
+            right = mid;
+            mid = (left + right) / 2;
+            //cout << "mid : " << mid << "  left : " << left << "    right: " << right << endl;
+            //cout << "-----------------------------------------" << endl;
+        }
+        else if (arr1[mid] < arr2[idx])
+        {
+            //cout << "mid : " << mid << "  left : " << left << "    right: " << right << endl;
+            left = mid;
+            mid = (left + right) / 2;
+            //cout << "mid : " << mid << "  left : " << left << "    right: " << right << endl;
+            //cout << "-----------------------------------------" << endl;
+        }
     }
     return 0;
 }
+
+/*
+0 1 2 3 4
+1 3 5 8 10
+
+
+*/
