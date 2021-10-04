@@ -1,51 +1,54 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <cmath>
 #include <map>
-#include <tuple>
+#include <cmath>
 using namespace std;
 vector<int> arr;
 map<int, int> arr2;
 bool comp(pair<int, int> a, pair<int, int> b)
 {
     if (a.second == b.second)
-        return a.first > b.first;
+        return a.first < b.first;
     return a.second > b.second;
 }
 int main()
 {
-    int n, t;
-    int mid = 0, range = 0, mode = 0;
-    double agv = 0;
-    scanf("%d", &n);
+    double avg = 0;
+    int mid = 0, mode = 0, range = 0, n;
+    cin >> n;
     for (int i = 0; i < n; i++)
     {
-        scanf("%d", &t);
+        int t;
+        cin >> t;
+        avg += t;
         arr.push_back(t);
-        map<int, int>::iterator iter = arr2.find(t);
-        if (iter != arr2.end())
-            arr2[t] += 1;
+        if (arr2.find(t) != arr2.end())
+            arr2[t]++;
         else
-            arr2.insert(make_pair(t, 1));
+            arr2[t] = 1;
     }
     vector<pair<int, int>> arr3(arr2.begin(), arr2.end());
+
     sort(arr.begin(), arr.end());
     sort(arr3.begin(), arr3.end(), comp);
 
-    for (int i = 0; i < n; i++)
-    {
-        printf("%d\n", arr[i]);
-    }
-    for (map<int, int>::iterator iter = arr2.begin(); iter != arr2.end(); iter++)
-    {
-        cout << "idx : " << iter->first << ", value: " << iter->second << endl;
-    }
-
-    // cout << round(agv / n) << endl;
-    // cout << arr[n / 2].first << endl;
-    // sort(arr.begin(), arr.end(), compare);
-    // cout << arr[1].second << endl;
-    // cout << arr[n - 1].first - arr[0].first << endl;
+    cout << round(avg / n) << endl;
+    cout << arr[round(arr.size() / 2)] << endl;
+    // cout << "arr3[0] first : " << arr3[0].first << endl;
+    // cout << "arr3[0] second : " << arr3[0].second << endl;
+    // cout << "arr3[1] first : " << arr3[1].first << endl;
+    // cout << "arr3[1] second : " << arr3[0].second << endl;
+    // for (int i = 0; i < arr3.size(); i++)
+    // {
+    //     cout << "arr3[" << i << "] first : " << arr3[i].first << endl;
+    //     cout << "arr3[" << i << "] second : " << arr3[i].second << endl;
+    //     cout << "======================================" << endl;
+    // }
+    if (arr3.size() >= 1 && arr3[0].second == arr3[1].second)
+        cout << arr3[1].first << endl;
+    else
+        cout << arr3[0].first << endl;
+    cout << arr.back() - arr.front() << endl;
     return 0;
 }
