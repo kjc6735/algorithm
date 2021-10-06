@@ -1,26 +1,28 @@
 #include <iostream>
 #include <string>
+#include <cmath>
+int arr[1000001] = {
+    0,
+};
 
 using namespace std;
 int main()
 {
-    //무조건 홀수
     int m, n;
     cin >> m >> n;
-    if (m % 2 == 0)
-        m + 1;
-    for (int i = m; i < n; i += 2)
+    arr[1] = 1;
+
+    for (int i = 2; i <= sqrt(n); i++)
     {
-        // i
-        for (int k = 2; k <= i; k++)
-        {
-            if (k != i && i % k == 0)
-            {
-                break;
-            }
-            if (k == i)
-                cout << i << endl;
-        }
+        if (arr[i] == 1)
+            continue;
+        for (int k = i * 2; k <= n; k += i)
+            arr[k] = 1;
+    }
+    for (int i = m; i <= n; i++)
+    {
+        if (arr[i] != 1)
+            printf("%d\n", i);
     }
     return 0;
 }
